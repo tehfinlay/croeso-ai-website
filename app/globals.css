@@ -20,7 +20,7 @@
   }
   
   .btn-secondary {
-    @apply bg-white text-primary border-2 border-primary font-inter font-medium px-8 py-4 rounded-button hover:bg-primary hover:text-white transition-all duration-300 inline-flex items-center gap-2;
+    @apply bg-white dark:bg-gray-800 text-primary dark:text-primary-light border-2 border-primary font-inter font-medium px-8 py-4 rounded-button hover:bg-primary hover:text-white dark:hover:bg-primary dark:hover:text-white transition-all duration-300 inline-flex items-center gap-2;
   }
   
   .section-padding {
@@ -38,6 +38,15 @@
   .card-hover {
     @apply hover:shadow-xl hover:-translate-y-2 transition-all duration-300;
   }
+  
+  /* Dark mode specific styles */
+  .dark-card {
+    @apply bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 transition-colors duration-300;
+  }
+  
+  .dark-input {
+    @apply bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:border-primary dark:focus:border-primary-light transition-colors duration-300;
+  }
 }
 
 /* Custom scrollbar */
@@ -46,7 +55,7 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  @apply bg-gray-100 dark:bg-gray-800;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -56,6 +65,11 @@
 
 ::-webkit-scrollbar-thumb:hover {
   background: #5A52CC;
+}
+
+/* Dark mode scrollbar for Firefox */
+html.dark {
+  scrollbar-color: #6C63FF #374151;
 }
 
 /* Smooth scrolling */

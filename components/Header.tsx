@@ -2,8 +2,9 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { Menu, X, Bot } from 'lucide-react'
+import { Menu, X, Bot, Moon, Sun } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { useDarkMode } from '@/components/DarkModeProvider'
 
 const navigation = [
   { name: 'Home', href: '/' },
@@ -17,9 +18,10 @@ const navigation = [
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const { isDarkMode, toggleDarkMode } = useDarkMode()
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-b border-gray-100">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md border-b border-gray-100 dark:border-gray-800 transition-colors duration-300">
       <nav className="container-custom flex items-center justify-between py-4">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2 text-xl font-spline font-bold">
@@ -33,15 +35,29 @@ export default function Header() {
             <Link
               key={item.name}
               href={item.href}
-              className="text-gray-700 hover:text-primary font-medium transition-colors duration-200"
+              className="text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary font-medium transition-colors duration-200"
             >
               {item.name}
             </Link>
           ))}
         </div>
 
-        {/* CTA Button */}
-        <div className="hidden lg:block">
+        {/* Desktop Actions */}
+        <div className="hidden lg:flex items-center gap-4">
+          {/* Dark Mode Toggle */}
+          <button
+            onClick={toggleDarkMode}
+            className="p-2 rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors duration-200"
+            aria-label="Toggle dark mode"
+          >
+            {isDarkMode ? (
+              <Sun className="w-5 h-5 text-gray-700 dark:text-gray-300" />
+            ) : (
+              <Moon className="w-5 h-5 text-gray-700 dark:text-gray-300" />
+            )}
+          </button>
+          
+          {/* CTA Button */}
           <Link href="/contact" className="btn-primary">
             Book Free AI Audit
           </Link>
@@ -53,9 +69,9 @@ export default function Header() {
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
         >
           {mobileMenuOpen ? (
-            <X className="w-6 h-6 text-gray-700" />
+            <X className="w-6 h-6 text-gray-700 dark:text-gray-300" />
           ) : (
-            <Menu className="w-6 h-6 text-gray-700" />
+            <Menu className="w-6 h-6 text-gray-700 dark:text-gray-300" />
           )}
         </button>
       </nav>
@@ -67,19 +83,38 @@ export default function Header() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="lg:hidden bg-white border-t border-gray-100"
+            className="lg:hidden bg-white dark:bg-gray-900 border-t border-gray-100 dark:border-gray-800 transition-colors duration-300"
           >
             <div className="container-custom py-4 space-y-4">
               {navigation.map((item) => (
                 <Link
                   key={item.name}
                   href={item.href}
-                  className="block text-gray-700 hover:text-primary font-medium transition-colors duration-200"
+                  className="block text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary font-medium transition-colors duration-200"
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   {item.name}
                 </Link>
               ))}
+              
+              {/* Mobile Dark Mode Toggle */}
+              <button
+                onClick={toggleDarkMode}
+                className="flex items-center gap-2 text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary font-medium transition-colors duration-200"
+              >
+                {isDarkMode ? (
+                  <>
+                    <Sun className="w-5 h-5" />
+                    Light Mode
+                  </>
+                ) : (
+                  <>
+                    <Moon className="w-5 h-5" />
+                    Dark Mode
+                  </>
+                )}
+              </button>
+              
               <Link
                 href="/contact"
                 className="btn-primary w-full justify-center mt-4"

@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import './globals.css'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
+import { DarkModeProvider } from '@/components/DarkModeProvider'
 
 export const metadata: Metadata = {
   title: 'CroesoAI - AI-Powered Welsh Tourism Websites',
@@ -24,12 +25,14 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="font-inter antialiased">
-        <Header />
-        <main className="min-h-screen">
-          {children}
-        </main>
-        <Footer />
+      <body className="font-inter antialiased bg-white dark:bg-gray-900 text-gray-900 dark:text-white transition-colors duration-300">
+        <DarkModeProvider>
+          <Header />
+          <main className="min-h-screen">
+            {children}
+          </main>
+          <Footer />
+        </DarkModeProvider>
       </body>
     </html>
   )
