@@ -12,6 +12,7 @@ const navigation = [
   { name: 'Case Studies', href: '/case-studies' },
   { name: 'Blog', href: '/blog' },
   { name: 'Cymraeg', href: '/cy' },
+  { name: 'About', href: '/about' },
   { name: 'Contact', href: '/contact' },
 ]
 
@@ -23,8 +24,10 @@ export default function Header() {
     <header className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-b border-gray-100">
       <nav className="container-custom flex items-center justify-between py-4">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2 text-xl font-spline font-bold">
-          <Bot className="w-8 h-8 text-primary" />
+        <Link href="/" className="flex items-center gap-2 text-xl font-spline font-bold group">
+          <span className="inline-block">
+            <Bot className="w-8 h-8 text-primary transition-transform duration-300 group-hover:animate-navdance" />
+          </span>
           <span className="gradient-text">CroesoAI</span>
         </Link>
 
@@ -36,11 +39,11 @@ export default function Header() {
               <Link
                 key={item.name}
                 href={item.href}
-                className={`relative group text-gray-700 hover:text-primary font-medium transition-colors duration-200${isActive ? ' text-primary' : ''}`}
+                className={`relative group font-medium transition-colors duration-200 ${isActive ? 'text-primary' : 'text-gray-700 hover:text-primary'}`}
               >
                 {item.name}
                 <span
-                  className={`absolute left-0 -bottom-1 h-0.5 bg-primary transition-all duration-300 ${isActive ? 'w-full' : 'w-0'} group-hover:w-full`}
+                  className={`absolute left-0 -bottom-1 h-0.5 bg-primary transition-all duration-300 ${isActive ? 'w-full' : 'w-0 group-hover:w-full'}`}
                   aria-hidden="true"
                 />
               </Link>
@@ -99,6 +102,19 @@ export default function Header() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      <style jsx global>{`
+        @keyframes navdance {
+          0%, 100% { transform: rotate(0deg) scale(1); }
+          20% { transform: rotate(-6deg) scale(1.03); }
+          40% { transform: rotate(6deg) scale(1.06); }
+          60% { transform: rotate(-4deg) scale(1.02); }
+          80% { transform: rotate(4deg) scale(1.01); }
+        }
+        .animate-navdance {
+          animation: navdance 0.6s cubic-bezier(0.4,0,0.2,1) 1;
+        }
+      `}</style>
     </header>
   )
 }

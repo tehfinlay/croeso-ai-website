@@ -90,7 +90,7 @@ export default function Footer() {
                 placeholder="Enter your email"
                 className="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-button text-white placeholder-gray-400 focus:outline-none focus:border-primary"
               />
-              <button className="w-full btn-primary">
+              <button className="w-full btn-primary text-center">
                 Subscribe
               </button>
             </form>

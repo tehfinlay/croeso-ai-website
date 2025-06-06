@@ -85,6 +85,31 @@ export default function Hero() {
               >
                 <MessageCircle className="w-6 h-6 text-gray-800" />
               </motion.div>
+
+              {/* Additional Floating Chat Bubbles */}
+              <motion.div
+                animate={{ x: [15, -15, 15], y: [-20, 20, -20] }}
+                transition={{ duration: 5.5, repeat: Infinity, ease: "easeInOut", delay: 1.5 }}
+                className="absolute -top-8 left-1/2 bg-primary rounded-2xl p-2 shadow-lg"
+              >
+                <MessageCircle className="w-7 h-7 text-white" />
+              </motion.div>
+
+              <motion.div
+                animate={{ x: [-15, 15, -15], y: [20, -20, 20] }}
+                transition={{ duration: 6.5, repeat: Infinity, ease: "easeInOut", delay: 2.2 }}
+                className="absolute bottom-10 left-0 bg-white rounded-2xl p-2 shadow-lg"
+              >
+                <MessageCircle className="w-6 h-6 text-secondary" />
+              </motion.div>
+
+              <motion.div
+                animate={{ x: [10, -10, 10], y: [-15, 15, -15] }}
+                transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 2.8 }}
+                className="absolute top-10 right-0 bg-yellow-300 rounded-2xl p-2 shadow-lg"
+              >
+                <MessageCircle className="w-8 h-8 text-primary" />
+              </motion.div>
             </div>
           </motion.div>
         </div>

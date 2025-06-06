@@ -22,7 +22,6 @@ export default function LargeAnimatedBot() {
     const interval = setInterval(() => {
       setCurrentTipIndex((prev) => (prev + 1) % tips.length)
     }, 8000)
-
     return () => clearInterval(interval)
   }, [])
 
@@ -32,7 +31,8 @@ export default function LargeAnimatedBot() {
     <div className="relative">
       {/* Speech Bubble - always visible, cycling through tips */}
       <div 
-        className="absolute -top-20 -left-8 bg-white/95 backdrop-blur-sm border-2 border-white/50 rounded-2xl px-4 py-3 shadow-xl transform transition-all duration-500"
+        className="absolute -top-24 -right-16 bg-white/95 border border-gray-200 px-6 py-4 shadow-2xl transform transition-all duration-500 min-w-[220px] max-w-xs"
+        style={{ borderRadius: '24px 24px 32px 24px' }}
       >
         <div className="text-primary font-semibold text-lg whitespace-nowrap">
           {currentTip.main}
@@ -40,12 +40,10 @@ export default function LargeAnimatedBot() {
         <div className="text-primary/70 text-sm">
           {currentTip.sub}
         </div>
-        {/* Speech bubble tail - positioned at bottom right */}
-        <div className="absolute top-full right-8 w-0 h-0 border-l-6 border-r-6 border-t-6 border-l-transparent border-r-transparent border-t-white/50"></div>
-        <div className="absolute top-full right-8 w-0 h-0 border-l-6 border-r-6 border-t-6 border-l-transparent border-r-transparent border-t-white/95 transform translate-y-[-3px]"></div>
+        {/* Speech bubble tail - classic triangle, bottom right */}
+        <div className="absolute top-full right-6 w-0 h-0 border-t-[18px] border-t-white border-x-[14px] border-x-transparent"></div>
       </div>
-      
-      {/* Large Bot Icon with continuous bounce */}
+      {/* Large Bot Icon with interactive animation */}
       <Bot className="w-24 h-24 text-white mx-auto mb-4 animate-bounce hover:scale-105 transition-transform duration-300" />
     </div>
   )

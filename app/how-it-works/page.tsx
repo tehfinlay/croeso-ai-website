@@ -144,13 +144,6 @@ export default function HowItWorks() {
                     <div className="w-full aspect-square bg-gradient-primary rounded-3xl flex items-center justify-center">
                       <step.icon className="w-24 h-24 text-white" />
                     </div>
-                    
-                    {/* Connecting line */}
-                    {index < steps.length - 1 && (
-                      <div className="hidden lg:block absolute -bottom-12 left-1/2 transform -translate-x-1/2">
-                        <div className="w-1 h-24 bg-gradient-to-b from-primary to-secondary opacity-30"></div>
-                      </div>
-                    )}
                   </div>
                 </div>
               </motion.div>
@@ -160,7 +153,7 @@ export default function HowItWorks() {
       </section>
 
       {/* CTA */}
-      <section className="py-16 bg-primary text-white">
+      <section className="section-padding bg-red-50">
         <div className="container-custom text-center">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -170,10 +163,10 @@ export default function HowItWorks() {
             <h2 className="text-3xl md:text-4xl font-spline font-bold mb-6">
               Ready to see your audit?
             </h2>
-            <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
+            <p className="text-xl text-gray-700 mb-8 max-w-2xl mx-auto">
               Get your free 3-minute mobile audit and see exactly how we can improve your website's performance.
             </p>
-            <Link href="/contact" className="btn-secondary bg-white text-primary hover:bg-gray-100">
+            <Link href="/contact" className="btn-primary bg-primary text-white hover:bg-gradient-to-r from-primary to-secondary hover:text-white">
               Book Free AI Audit
               <ArrowRight className="w-5 h-5" />
             </Link>

@@ -1,8 +1,8 @@
 'use client'
 
 import { motion, AnimatePresence } from 'framer-motion'
-import { Play, MessageCircle, Pause } from 'lucide-react'
-import { useState, useEffect } from 'react'
+import { Play, MessageCircle, Pause, Send, Bot } from 'lucide-react'
+import { useState, useEffect, useRef } from 'react'
 
 const conversations = [
   {
@@ -42,6 +42,9 @@ export default function LiveDemo() {
   const [currentConversation, setCurrentConversation] = useState(0)
   const [showCustomer, setShowCustomer] = useState(false)
   const [showAI, setShowAI] = useState(false)
+  const [messageHistory, setMessageHistory] = useState<Array<{text: string, type: string, lang?: string, id: number}>>([])
+  const MAX_MESSAGES = 6 // Keep only last 6 messages (3 conversations)
+  const messageListRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     if (!isPlaying) return
@@ -51,13 +54,33 @@ export default function LiveDemo() {
       setShowCustomer(false)
       setShowAI(false)
       
-      // Wait a moment, then show customer message
-      setTimeout(() => setShowCustomer(true), 500)
+      // Add customer message to history
+      setTimeout(() => {
+        setShowCustomer(true)
+        setMessageHistory(prev => {
+          const newMessage = {
+            ...conversations[currentConversation].customer,
+            id: Date.now()
+          }
+          const newHistory = [...prev, newMessage]
+          return newHistory.slice(-MAX_MESSAGES)
+        })
+      }, 500)
       
-      // Wait, then show AI response
-      setTimeout(() => setShowAI(true), 2000)
+      // Add AI response to history
+      setTimeout(() => {
+        setShowAI(true)
+        setMessageHistory(prev => {
+          const newMessage = {
+            ...conversations[currentConversation].ai,
+            id: Date.now()
+          }
+          const newHistory = [...prev, newMessage]
+          return newHistory.slice(-MAX_MESSAGES)
+        })
+      }, 2000)
       
-      // Wait, then move to next conversation
+      // Move to next conversation
       setTimeout(() => {
         setCurrentConversation((prev) => (prev + 1) % conversations.length)
       }, 4000)
@@ -69,16 +92,21 @@ export default function LiveDemo() {
     return () => clearInterval(interval)
   }, [isPlaying, currentConversation])
 
+  useEffect(() => {
+    if (messageListRef.current) {
+      messageListRef.current.scrollTop = messageListRef.current.scrollHeight
+    }
+  }, [messageHistory])
+
   const handlePlayPause = () => {
     setIsPlaying(!isPlaying)
     if (!isPlaying) {
       setCurrentConversation(0)
       setShowCustomer(false)
       setShowAI(false)
+      setMessageHistory([])
     }
   }
-
-  const currentConv = conversations[currentConversation]
 
   return (
     <section className="section-padding bg-gray-50">
@@ -103,108 +131,114 @@ export default function LiveDemo() {
           viewport={{ once: true }}
           className="max-w-4xl mx-auto"
         >
-          <div className="relative bg-gradient-primary p-1 rounded-3xl">
-            <div className="bg-white rounded-[22px] p-8">
-              {/* Interactive Demo */}
-              <div className="aspect-video bg-gray-900 rounded-2xl flex items-center justify-center relative overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-secondary/20"></div>
-                
-                {/* Play/Pause Button */}
+          <div className="bg-white rounded-[22px] p-8 shadow-xl">
+            {/* Play Button - More Prominent */}
+            <div className="flex justify-center mb-8">
+              <div className="flex flex-col items-center">
                 <button 
                   onClick={handlePlayPause}
-                  className="relative z-10 w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-2xl hover:scale-110 transition-transform duration-300"
+                  className="group relative w-14 h-14 bg-gradient-to-r from-primary to-secondary rounded-full flex items-center justify-center shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105"
                 >
+                  <div className="absolute inset-0 bg-white/20 rounded-full animate-ping"></div>
                   {isPlaying ? (
-                    <Pause className="w-8 h-8 text-primary" />
+                    <Pause className="w-5 h-5 text-white" />
                   ) : (
-                    <Play className="w-8 h-8 text-primary ml-1" />
+                    <Play className="w-5 h-5 text-white ml-1" />
                   )}
                 </button>
-                
-                {/* Animated Chat Messages */}
-                <AnimatePresence mode="wait">
-                  {isPlaying && showCustomer && (
-                    <motion.div
-                      key={`customer-${currentConversation}`}
-                      initial={{ opacity: 0, scale: 0.8, y: 20 }}
-                      animate={{ opacity: 1, scale: 1, y: 0 }}
-                      exit={{ opacity: 0, scale: 0.8, y: -20 }}
-                      transition={{ duration: 0.5 }}
-                      className="absolute bottom-8 right-8 bg-primary rounded-2xl p-4 shadow-lg max-w-xs"
-                    >
-                      <div className="flex items-center gap-2 mb-2">
-                        <MessageCircle className="w-5 h-5 text-white" />
-                        <span className="font-medium text-sm text-white">Customer</span>
-                      </div>
-                      <p className="text-sm text-white/90">{currentConv.customer.text}</p>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+                <span className="mt-4 text-sm font-medium text-gray-600 group-hover:text-primary transition-colors">
+                  {isPlaying ? 'Pause Demo' : 'Start Demo'}
+                </span>
+              </div>
+            </div>
 
-                <AnimatePresence mode="wait">
-                  {isPlaying && showAI && (
-                    <motion.div
-                      key={`ai-${currentConversation}`}
-                      initial={{ opacity: 0, scale: 0.8, y: 20 }}
-                      animate={{ opacity: 1, scale: 1, y: 0 }}
-                      exit={{ opacity: 0, scale: 0.8, y: -20 }}
-                      transition={{ duration: 0.5, delay: 0.2 }}
-                      className="absolute top-8 left-8 bg-white rounded-2xl p-4 shadow-lg max-w-xs"
-                    >
-                      <div className="flex items-center gap-2 mb-2">
-                        <MessageCircle className="w-5 h-5 text-primary" />
-                        <span className="font-medium text-sm">AI Assistant</span>
-                        <div className={`w-2 h-2 rounded-full ${currentConv.ai.lang === 'cy' ? 'bg-red-500' : 'bg-green-500'}`}></div>
-                      </div>
-                      <p className="text-sm text-gray-600">{currentConv.ai.text}</p>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-
-                {/* Default static messages when not playing */}
-                {!isPlaying && (
-                  <>
-                    <motion.div
-                      animate={{ y: [-10, 10, -10] }}
-                      transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-                      className="absolute top-8 left-8 bg-white rounded-2xl p-4 shadow-lg max-w-xs"
-                    >
-                      <div className="flex items-center gap-2 mb-2">
-                        <MessageCircle className="w-5 h-5 text-primary" />
-                        <span className="font-medium text-sm">AI Assistant</span>
-                      </div>
-                      <p className="text-sm text-gray-600">Shwmae! How can I help you today?</p>
-                    </motion.div>
-
-                    <motion.div
-                      animate={{ y: [10, -10, 10] }}
-                      transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-                      className="absolute bottom-8 right-8 bg-primary rounded-2xl p-4 shadow-lg max-w-xs"
-                    >
-                      <div className="flex items-center gap-2 mb-2">
-                        <MessageCircle className="w-5 h-5 text-white" />
-                        <span className="font-medium text-sm text-white">Customer</span>
-                      </div>
-                      <p className="text-sm text-white/90">Do you have availability for next weekend?</p>
-                    </motion.div>
-                  </>
-                )}
+            {/* Chat Interface */}
+            <div className="bg-gray-50 rounded-2xl overflow-hidden flex flex-col h-[500px] border border-gray-200">
+              {/* Chat Header */}
+              <div className="bg-white p-4 flex items-center gap-3 border-b border-gray-200">
+                <Bot className="w-6 h-6 text-primary" />
+                <div className="flex-1">
+                  <h3 className="text-gray-900 font-medium">AI Concierge</h3>
+                  <p className="text-sm text-gray-500">Online • Bilingual Support</p>
+                </div>
               </div>
 
-              <div className="mt-6 text-center">
-                <p className="text-gray-600 mb-4">
-                  {isPlaying ? 'Live conversation demo' : 'Click play to see real conversations'}
-                </p>
-                <div className="flex items-center justify-center gap-6 text-sm text-gray-500">
-                  <span className="flex items-center gap-2">
-                    <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                    English responses
-                  </span>
-                  <span className="flex items-center gap-2">
-                    <div className="w-3 h-3 bg-red-500 rounded-full"></div>
-                    Welsh responses
-                  </span>
+              {/* Chat Messages */}
+              <div
+                ref={messageListRef}
+                className="flex-1 p-4 flex flex-col gap-4 overflow-y-scroll hide-scrollbar"
+                style={{ minHeight: 0, maxHeight: 340 }}
+              >
+                <AnimatePresence mode="popLayout">
+                  {messageHistory.map((message) => (
+                    <motion.div
+                      key={message.id}
+                      initial={{ opacity: 0, y: 20, scale: 0.95 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ 
+                        opacity: 0,
+                        y: 20,
+                        scale: 0.95,
+                        transition: { duration: 0.2 }
+                      }}
+                      transition={{ 
+                        duration: 0.4,
+                        ease: "easeOut"
+                      }}
+                      className={`flex ${message.type === 'customer' ? 'justify-end' : 'justify-start'}`}
+                    >
+                      <div
+                        className={`max-w-[80%] rounded-2xl p-4 ${
+                          message.type === 'customer'
+                            ? 'bg-gradient-to-r from-primary to-secondary text-white'
+                            : 'bg-white text-gray-900 shadow-sm border border-gray-100'
+                        }`}
+                      >
+                        <div className="flex items-center gap-2 mb-2">
+                          {message.type === 'ai' && (
+                            <div className={`w-2 h-2 rounded-full ${message.lang === 'cy' ? 'bg-red-500' : 'bg-green-500'}`}></div>
+                          )}
+                          <span className="text-sm font-medium opacity-80">
+                            {message.type === 'customer' ? 'You' : 'AI Assistant'}
+                          </span>
+                        </div>
+                        <p className="text-sm">{message.text}</p>
+                      </div>
+                    </motion.div>
+                  ))}
+                </AnimatePresence>
+              </div>
+
+              {/* Message Input */}
+              <div className="p-4 border-t border-gray-200 bg-white">
+                <div className="flex items-center gap-2 bg-gray-50 rounded-full px-4 py-2 border border-gray-200">
+                  <input
+                    type="text"
+                    placeholder="Type your message..."
+                    className="flex-1 bg-transparent text-gray-900 placeholder-gray-400 focus:outline-none"
+                    disabled={!isPlaying}
+                  />
+                  <button
+                    className="w-8 h-8 bg-primary rounded-full flex items-center justify-center hover:bg-primary/90 transition-colors disabled:opacity-50"
+                    disabled={!isPlaying}
+                  >
+                    <Send className="w-4 h-4 text-white" />
+                  </button>
                 </div>
+              </div>
+            </div>
+
+            {/* Legend */}
+            <div className="mt-4 text-center">
+              <div className="flex items-center justify-center gap-6 text-sm text-gray-500">
+                <span className="flex items-center gap-2">
+                  <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                  English responses
+                </span>
+                <span className="flex items-center gap-2">
+                  <div className="w-3 h-3 bg-red-500 rounded-full"></div>
+                  Welsh responses
+                </span>
               </div>
             </div>
           </div>
