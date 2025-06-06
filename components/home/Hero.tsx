@@ -2,7 +2,8 @@
 
 import { motion } from 'framer-motion'
 import Link from 'next/link'
-import { ArrowRight, Bot, MessageCircle } from 'lucide-react'
+import { ArrowRight, MessageCircle } from 'lucide-react'
+import LargeAnimatedBot from '@/components/LargeAnimatedBot'
 
 export default function Hero() {
   return (
@@ -53,7 +54,7 @@ export default function Hero() {
                 transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
                 className="relative z-10 bg-white/20 backdrop-blur-md rounded-3xl p-8 border border-white/30"
               >
-                <Bot className="w-24 h-24 text-white mx-auto mb-4" />
+                <LargeAnimatedBot />
                 <div className="text-center text-white">
                   <h3 className="font-spline font-semibold text-lg mb-2">AI Concierge</h3>
                   <p className="text-sm opacity-90">Bilingual • 24/7 • Intelligent</p>
