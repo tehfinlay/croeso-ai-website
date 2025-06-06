@@ -1,11 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: 'export',
-  trailingSlash: true,
   images: {
-    unoptimized: true
+    unoptimized: true,
   },
-  basePath: process.env.NODE_ENV === 'production' ? '/croesoai' : '',
+  basePath: process.env.NODE_ENV === 'production' ? '/croeso-ai-website' : '',
+  trailingSlash: true,
 }
 
 export default nextConfig
