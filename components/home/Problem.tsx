@@ -75,10 +75,16 @@ export default function Problem() {
               {/* Reactive border effect */}
               {hoveredIndex === index && (
                 <span
-                  className="pointer-events-none absolute inset-0 rounded-2xl border-2 border-transparent"
+                  className="pointer-events-none absolute inset-0"
                   style={{
-                    background: `radial-gradient(180px circle at ${mousePos.x}px ${mousePos.y}px, ${problem.color}22, transparent 70%)`,
-                    borderImage: `radial-gradient(80px circle at ${mousePos.x}px ${mousePos.y}px, ${problem.color} 60%, transparent 100%) 1`,
+                    background: `
+                      radial-gradient(120px circle at ${mousePos.x}px ${mousePos.y}px, ${problem.color} 0%, transparent 70%),
+                      radial-gradient(200px circle at ${mousePos.x}px ${mousePos.y}px, ${problem.color}15 0%, transparent 70%)
+                    `,
+                    borderRadius: '1rem', // exactly matches rounded-2xl
+                    border: `1px solid transparent`,
+                    backgroundOrigin: 'border-box',
+                    backgroundClip: 'padding-box, border-box',
                     zIndex: 1,
                   }}
                   aria-hidden="true"
