@@ -74,21 +74,31 @@ export default function Problem() {
             >
               {/* Reactive border effect */}
               {hoveredIndex === index && (
-                <span
-                  className="pointer-events-none absolute inset-0"
-                  style={{
-                    background: `
-                      radial-gradient(120px circle at ${mousePos.x}px ${mousePos.y}px, ${problem.color} 0%, transparent 70%),
-                      radial-gradient(200px circle at ${mousePos.x}px ${mousePos.y}px, ${problem.color}15 0%, transparent 70%)
-                    `,
-                    borderRadius: '1rem', // exactly matches rounded-2xl
-                    border: `1px solid transparent`,
-                    backgroundOrigin: 'border-box',
-                    backgroundClip: 'padding-box, border-box',
-                    zIndex: 1,
-                  }}
-                  aria-hidden="true"
-                />
+                <>
+                  {/* Background glow */}
+                  <span
+                    className="pointer-events-none absolute inset-0 rounded-2xl"
+                    style={{
+                      background: `radial-gradient(200px circle at ${mousePos.x}px ${mousePos.y}px, ${problem.color}15, transparent 70%)`,
+                      zIndex: 1,
+                    }}
+                    aria-hidden="true"
+                  />
+                  {/* Border */}
+                  <span
+                    className="pointer-events-none absolute inset-0 rounded-2xl"
+                    style={{
+                      background: `radial-gradient(120px circle at ${mousePos.x}px ${mousePos.y}px, ${problem.color}, transparent 70%)`,
+                      mask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+                      maskComposite: 'subtract',
+                      WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+                      WebkitMaskComposite: 'subtract',
+                      padding: '2px',
+                      zIndex: 2,
+                    }}
+                    aria-hidden="true"
+                  />
+                </>
               )}
               <div className={`w-16 h-16 ${problem.bg} rounded-full flex items-center justify-center mb-6 relative z-10`}>
                 <problem.icon className={`w-8 h-8 ${problem.iconColor}`} />
