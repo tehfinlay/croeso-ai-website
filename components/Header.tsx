@@ -2,9 +2,9 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { Menu, X, Bot, Moon, Sun } from 'lucide-react'
+import { Menu, X, Bot } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { useDarkMode } from '@/components/DarkModeProvider'
+import DarkModeToggle, { MobileDarkModeToggle } from '@/components/DarkModeToggle'
 
 const navigation = [
   { name: 'Home', href: '/' },
@@ -18,7 +18,6 @@ const navigation = [
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const { isDarkMode, toggleDarkMode } = useDarkMode()
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md border-b border-gray-100 dark:border-gray-800 transition-colors duration-300">
@@ -45,17 +44,7 @@ export default function Header() {
         {/* Desktop Actions */}
         <div className="hidden lg:flex items-center gap-4">
           {/* Dark Mode Toggle */}
-          <button
-            onClick={toggleDarkMode}
-            className="p-2 rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors duration-200"
-            aria-label="Toggle dark mode"
-          >
-            {isDarkMode ? (
-              <Sun className="w-5 h-5 text-gray-700 dark:text-gray-300" />
-            ) : (
-              <Moon className="w-5 h-5 text-gray-700 dark:text-gray-300" />
-            )}
-          </button>
+          <DarkModeToggle />
           
           {/* CTA Button */}
           <Link href="/contact" className="btn-primary">
@@ -98,22 +87,7 @@ export default function Header() {
               ))}
               
               {/* Mobile Dark Mode Toggle */}
-              <button
-                onClick={toggleDarkMode}
-                className="flex items-center gap-2 text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary font-medium transition-colors duration-200"
-              >
-                {isDarkMode ? (
-                  <>
-                    <Sun className="w-5 h-5" />
-                    Light Mode
-                  </>
-                ) : (
-                  <>
-                    <Moon className="w-5 h-5" />
-                    Dark Mode
-                  </>
-                )}
-              </button>
+              <MobileDarkModeToggle />
               
               <Link
                 href="/contact"
