@@ -1,4 +1,4 @@
-// File: /home/project/app/how-it-works/page.tsx
+// File: C:\_repos\croesoai\app\how-it-works\page.tsx
 import * as entry from '../../../../app/how-it-works/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 
