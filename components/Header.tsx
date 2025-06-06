@@ -2,8 +2,9 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { Menu, X, Bot } from 'lucide-react'
+import { Menu, X } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
+import AnimatedBot from '@/components/AnimatedBot'
 
 const navigation = [
   { name: 'Home', href: '/' },
@@ -23,7 +24,7 @@ export default function Header() {
       <nav className="container-custom flex items-center justify-between py-4">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2 text-xl font-spline font-bold">
-          <Bot className="w-8 h-8 text-primary" />
+          <AnimatedBot />
           <span className="gradient-text">CroesoAI</span>
         </Link>
 
