@@ -2,26 +2,40 @@
 
 import { motion } from 'framer-motion'
 import { Clock, Globe, MessageSquare } from 'lucide-react'
+import { useState } from 'react'
 
 const problems = [
   {
     icon: Clock,
     title: 'Slow Sites',
-    description: 'Your website takes forever to load, losing bookings to faster competitors.'
+    description: 'Your website takes forever to load, losing bookings to faster competitors.',
+    color: '#EF4444', // Tailwind red-500
+    bg: 'bg-red-100',
+    iconColor: 'text-red-600',
   },
   {
     icon: Globe,
     title: 'No Welsh Option',
-    description: 'Missing out on local customers who prefer Welsh-language service.'
+    description: 'Missing out on local customers who prefer Welsh-language service.',
+    color: '#F59E42', // Tailwind orange-400
+    bg: 'bg-orange-100',
+    iconColor: 'text-orange-500',
   },
   {
     icon: MessageSquare,
     title: 'Manual Replies',
-    description: 'Spending hours answering the same questions instead of growing your business.'
+    description: 'Spending hours answering the same questions instead of growing your business.',
+    color: '#3B82F6', // Tailwind blue-500
+    bg: 'bg-blue-100',
+    iconColor: 'text-blue-600',
   }
 ]
 
 export default function Problem() {
+  // Track mouse position for each box
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
+  const [mousePos, setMousePos] = useState<{ x: number; y: number }>({ x: 0, y: 0 })
+
   return (
     <section className="section-padding bg-red-50">
       <div className="container-custom">
@@ -47,15 +61,36 @@ export default function Problem() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.2 }}
-              className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow duration-300"
+              className="relative bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden"
+              onMouseMove={e => {
+                const rect = (e.currentTarget as HTMLDivElement).getBoundingClientRect()
+                setMousePos({
+                  x: e.clientX - rect.left,
+                  y: e.clientY - rect.top
+                })
+                setHoveredIndex(index)
+              }}
+              onMouseLeave={() => setHoveredIndex(null)}
             >
-              <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mb-6">
-                <problem.icon className="w-8 h-8 text-red-600" />
+              {/* Reactive border effect */}
+              {hoveredIndex === index && (
+                <span
+                  className="pointer-events-none absolute inset-0 rounded-2xl border-2 border-transparent"
+                  style={{
+                    background: `radial-gradient(180px circle at ${mousePos.x}px ${mousePos.y}px, ${problem.color}22, transparent 70%)`,
+                    borderImage: `radial-gradient(80px circle at ${mousePos.x}px ${mousePos.y}px, ${problem.color} 60%, transparent 100%) 1`,
+                    zIndex: 1,
+                  }}
+                  aria-hidden="true"
+                />
+              )}
+              <div className={`w-16 h-16 ${problem.bg} rounded-full flex items-center justify-center mb-6 relative z-10`}>
+                <problem.icon className={`w-8 h-8 ${problem.iconColor}`} />
               </div>
-              <h3 className="text-xl font-spline font-semibold text-gray-900 mb-4">
+              <h3 className="text-xl font-spline font-semibold text-gray-900 mb-4 relative z-10">
                 {problem.title}
               </h3>
-              <p className="text-gray-600 leading-relaxed">
+              <p className="text-gray-600 leading-relaxed relative z-10">
                 {problem.description}
               </p>
             </motion.div>
