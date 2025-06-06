@@ -18,10 +18,10 @@ export default function LargeAnimatedBot() {
   const [currentTipIndex, setCurrentTipIndex] = useState(0)
 
   useEffect(() => {
-    // Cycle through tips every 4 seconds
+    // Cycle through tips every 8 seconds (doubled from 4 seconds)
     const interval = setInterval(() => {
       setCurrentTipIndex((prev) => (prev + 1) % tips.length)
-    }, 4000)
+    }, 8000)
 
     return () => clearInterval(interval)
   }, [])
@@ -40,9 +40,9 @@ export default function LargeAnimatedBot() {
         <div className="text-primary/70 text-sm">
           {currentTip.sub}
         </div>
-        {/* Speech bubble tail */}
-        <div className="absolute top-full left-8 w-0 h-0 border-l-6 border-r-6 border-t-6 border-l-transparent border-r-transparent border-t-white/50"></div>
-        <div className="absolute top-full left-8 w-0 h-0 border-l-6 border-r-6 border-t-6 border-l-transparent border-r-transparent border-t-white/95 transform translate-y-[-3px]"></div>
+        {/* Speech bubble tail - positioned at bottom right */}
+        <div className="absolute top-full right-8 w-0 h-0 border-l-6 border-r-6 border-t-6 border-l-transparent border-r-transparent border-t-white/50"></div>
+        <div className="absolute top-full right-8 w-0 h-0 border-l-6 border-r-6 border-t-6 border-l-transparent border-r-transparent border-t-white/95 transform translate-y-[-3px]"></div>
       </div>
       
       {/* Large Bot Icon with continuous bounce */}

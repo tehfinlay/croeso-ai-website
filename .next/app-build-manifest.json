@@ -17,15 +17,22 @@
       "static/chunks/648-2e1b63d4b78033a2.js",
       "static/chunks/app/layout-addea238463bedb8.js"
     ],
-    "/page": [
+    "/case-studies/page": [
+      "static/chunks/webpack-0aad1ec8d85dc54b.js",
+      "static/chunks/fd9d1056-b11b2651f33aae7f.js",
+      "static/chunks/117-ef3ad7c86f656692.js",
+      "static/chunks/main-app-6946fd4fba99ed3d.js",
+      "static/chunks/197-71e4d33becef0c77.js",
+      "static/chunks/app/case-studies/page-fbcaab655bb0a4bd.js"
+    ],
+    "/how-it-works/page": [
       "static/chunks/webpack-0aad1ec8d85dc54b.js",
       "static/chunks/fd9d1056-b11b2651f33aae7f.js",
       "static/chunks/117-ef3ad7c86f656692.js",
       "static/chunks/main-app-6946fd4fba99ed3d.js",
       "static/chunks/197-71e4d33becef0c77.js",
       "static/chunks/648-2e1b63d4b78033a2.js",
-      "static/chunks/395-b9548c8653579dc0.js",
-      "static/chunks/app/page-478fb81801b79cc4.js"
+      "static/chunks/app/how-it-works/page-d2c343dfed04f741.js"
     ],
     "/contact/page": [
       "static/chunks/webpack-0aad1ec8d85dc54b.js",
@@ -44,22 +51,15 @@
       "static/chunks/648-2e1b63d4b78033a2.js",
       "static/chunks/app/pricing/page-de2dfaa1a0ef251d.js"
     ],
-    "/how-it-works/page": [
+    "/page": [
       "static/chunks/webpack-0aad1ec8d85dc54b.js",
       "static/chunks/fd9d1056-b11b2651f33aae7f.js",
       "static/chunks/117-ef3ad7c86f656692.js",
       "static/chunks/main-app-6946fd4fba99ed3d.js",
       "static/chunks/197-71e4d33becef0c77.js",
       "static/chunks/648-2e1b63d4b78033a2.js",
-      "static/chunks/app/how-it-works/page-d2c343dfed04f741.js"
-    ],
-    "/case-studies/page": [
-      "static/chunks/webpack-0aad1ec8d85dc54b.js",
-      "static/chunks/fd9d1056-b11b2651f33aae7f.js",
-      "static/chunks/117-ef3ad7c86f656692.js",
-      "static/chunks/main-app-6946fd4fba99ed3d.js",
-      "static/chunks/197-71e4d33becef0c77.js",
-      "static/chunks/app/case-studies/page-fbcaab655bb0a4bd.js"
+      "static/chunks/395-b9548c8653579dc0.js",
+      "static/chunks/app/page-f2e186a4ad489952.js"
     ]
   }
 }
