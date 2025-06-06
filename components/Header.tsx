@@ -4,9 +4,9 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { Menu, X, Bot } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { usePathname } from 'next/navigation'
 
 const navigation = [
-  { name: 'Home', href: '/' },
   { name: 'How It Works', href: '/how-it-works' },
   { name: 'Pricing', href: '/pricing' },
   { name: 'Case Studies', href: '/case-studies' },
@@ -17,6 +17,7 @@ const navigation = [
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const pathname = usePathname()
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-b border-gray-100">
@@ -29,15 +30,22 @@ export default function Header() {
 
         {/* Desktop Navigation */}
         <div className="hidden lg:flex items-center gap-8">
-          {navigation.map((item) => (
-            <Link
-              key={item.name}
-              href={item.href}
-              className="text-gray-700 hover:text-primary font-medium transition-colors duration-200"
-            >
-              {item.name}
-            </Link>
-          ))}
+          {navigation.map((item) => {
+            const isActive = pathname === item.href
+            return (
+              <Link
+                key={item.name}
+                href={item.href}
+                className={`relative group text-gray-700 hover:text-primary font-medium transition-colors duration-200${isActive ? ' text-primary' : ''}`}
+              >
+                {item.name}
+                <span
+                  className={`absolute left-0 -bottom-1 h-0.5 bg-primary transition-all duration-300 ${isActive ? 'w-full' : 'w-0'} group-hover:w-full`}
+                  aria-hidden="true"
+                />
+              </Link>
+            )
+          })}
         </div>
 
         {/* CTA Button */}
